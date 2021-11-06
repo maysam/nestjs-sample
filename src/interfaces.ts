@@ -3,10 +3,12 @@ interface i18nString {
   'en-gb': string;
 }
 
+export interface TimeSlot {
+  startHour: number;
+  finishHour: number;
+}
 export interface DayTimeSlot {
-  day: string;
-  from: string;
-  to: string;
+  [day: string]: TimeSlot[];
 }
 
 interface Container {
