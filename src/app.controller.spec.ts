@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import ExampleAvailableProducts from './sample';
+import ExampleAvailableProducts from './data/sample_output';
 
 describe('AppController', () => {
   let app: TestingModule;
@@ -19,11 +19,18 @@ describe('AppController', () => {
   });
 
   describe('getAvailableProducts', () => {
-    it('should return "2 streams"', () => {
+    it('should return 2 streams for postalCode 1111AB', () => {
       const appController = app.get<AppController>(AppController);
-      const response = appController.getAvailableProducts('1111');
-      expect(response.length).toBe(2);
+      const response = appController.getAvailableProducts('1111AB');
+      expect(response).toHaveLength(2);
       expect(response).toStrictEqual(ExampleAvailableProducts);
+    });
+
+    it('should return no streams for 2000', () => {
+      const appController = app.get<AppController>(AppController);
+      const response = appController.getAvailableProducts('2000');
+      expect(response).toHaveLength(0);
+      expect(response).toMatchObject({});
     });
   });
 

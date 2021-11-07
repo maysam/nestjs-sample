@@ -1,4 +1,4 @@
-import { LogisticProvider } from './interfaces';
+import { LogisticProvider } from '../interfaces';
 
 export const logistics_providers: LogisticProvider[] = [
   {
