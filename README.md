@@ -2,6 +2,10 @@
 
 Sample personal application
 
+## DevOps
+
+use Gitlab for CICD and setup a `.gitlab-ci.yml` containing multiple steps like `build`, `test`, `lint`, `audit`, `deploy_staging`, `deploy_production`, `announce_deployment` to run the tests before deployment. When having multiple repositories, use triggers.
+
 ## Installation
 
 ```bash
