@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle('SEENONS Engineering Interview Assignment')
     .setDescription('API definitions')
     .setVersion('1.0')
+    .addTag('stream products')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api-docs', app, document);
