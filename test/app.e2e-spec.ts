@@ -1,12 +1,17 @@
-import * as request from 'supertest';
+import request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { AppModule } from './../src/app.module';
 import { INestApplication } from '@nestjs/common';
+import ExampleAvailableProducts from '../src/sample';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let dateSpy;
 
   beforeAll(async () => {
+    dateSpy = jest
+      .spyOn(Date, 'now')
+      .mockImplementation(() => Date.parse('2021-11-06'));
     const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -15,10 +20,17 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/available-products/:postalCode (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/available-products/1111')
       .expect(200)
-      .expect('Hello World!');
+      .expect(({ body }) => {
+        expect(body).toStrictEqual(ExampleAvailableProducts);
+      });
+  });
+
+  afterAll(async () => {
+    await app.close();
+    dateSpy.mockRestore();
   });
 });

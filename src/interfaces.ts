@@ -37,3 +37,15 @@ export interface AvailableProduct {
   size_display: string;
   logistics_providers: LogisticsProvider[];
 }
+
+interface StreamProduct {
+  stream_product_ids: number[];
+  container_product_ids: number[];
+  postal_code_rule: (number) => boolean;
+  available_timeslots: DayTimeSlot[];
+}
+
+export interface LogisticProvider {
+  name: string;
+  stream_products: StreamProduct[];
+}

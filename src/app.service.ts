@@ -2,21 +2,18 @@ import { Injectable } from '@nestjs/common';
 import streams from './streams.json';
 import containers from './containers.json';
 import { AvailableProduct } from './interfaces';
-import LogisticProviders from './logistics_providers';
+import { getLogisticProviders } from './logistics_providers';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   getAvailableProducts(postalCode: string): AvailableProduct[] {
+    const parsedPostalCode = parseInt(postalCode, 10); // parses "1234AB" into 1234
     const active_streams = streams.items.filter(({ _active }) => _active);
     const active_containers = containers.items.filter(({ _active }) => _active);
-    const lps = LogisticProviders.filter((lp) =>
+    const lps = getLogisticProviders().filter((lp) =>
       lp.stream_products.some(
         (sp) =>
-          sp.postal_code_rule(parseInt(postalCode)) &&
+          sp.postal_code_rule(parsedPostalCode) &&
           active_streams.some(({ stream_product_id }) =>
             sp.stream_product_ids.includes(stream_product_id),
           ),
