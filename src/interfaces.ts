@@ -42,7 +42,7 @@ interface StreamProduct {
   stream_product_ids: number[];
   container_product_ids: number[];
   postal_code_rule: (number) => boolean;
-  available_timeslots: DayTimeSlot[];
+  available_days: number[];
 }
 
 export interface LogisticProvider {

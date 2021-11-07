@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import streams from './streams.json';
 import containers from './containers.json';
 import { AvailableProduct } from './interfaces';
-import { getLogisticProviders } from './logistics_providers';
+import { logistics_providers } from './logistics_providers';
+import { getAvailableTimeslots } from './utilities';
 
 @Injectable()
 export class AppService {
@@ -10,7 +11,7 @@ export class AppService {
     const parsedPostalCode = parseInt(postalCode, 10); // parses "1234AB" into 1234
     const active_streams = streams.items.filter(({ _active }) => _active);
     const active_containers = containers.items.filter(({ _active }) => _active);
-    const lps = getLogisticProviders().filter((lp) =>
+    const lps = logistics_providers.filter((lp) =>
       lp.stream_products.some(
         (sp) =>
           sp.postal_code_rule(parsedPostalCode) &&
@@ -58,7 +59,9 @@ export class AppService {
                       ),
                   )
                   .map((sp) => ({
-                    available_timeslots: sp.available_timeslots,
+                    available_timeslots: getAvailableTimeslots(
+                      sp.available_days,
+                    ),
                     containers: active_containers
                       .filter(
                         ({ container_product_id }) =>
